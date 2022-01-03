@@ -13,6 +13,7 @@
 
 #define MoveForwardBinding TEXT("MoveForward")
 #define TurnBinding TEXT("Turn")
+#define FireBinding TEXT("Fire")
 
 #define OUT
 
@@ -36,7 +37,8 @@ void ATankPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	}
 
 	PlayerInputComponent->BindAxis(MoveForwardBinding, this, &ATankPawn::Move);
-	PlayerInputComponent->BindAxis(TurnBinding, this, & ATankPawn::Rotate);
+	PlayerInputComponent->BindAxis(TurnBinding, this, &ATankPawn::Rotate);
+	PlayerInputComponent->BindAction(FireBinding, IE_Pressed, this, &ATankPawn::Fire);
 }
 
 // Called when the game starts or when spawned
