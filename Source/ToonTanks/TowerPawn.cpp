@@ -17,6 +17,7 @@ void ATowerPawn::BeginPlay()
 	if (!TankPawn)
 		UE_LOG(LogTemp, Error, TEXT("Object %s could not find a suitable player pawn."), *GetName());
 
+	// Sets a timed callback handled by Unreal Engine that calls ATowerPawn::CheckFireCondition, looping the callback every X seconds, in this case defined by FireRate.
 	GetWorldTimerManager().SetTimer(OUT FireRateTimerHandle, this, &ATowerPawn::CheckFireCondition, FireRate, true);
 }
 

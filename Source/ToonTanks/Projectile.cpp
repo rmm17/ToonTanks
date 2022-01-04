@@ -3,7 +3,9 @@
 
 #include "Projectile.h"
 #include "Components/StaticMeshComponent.h"
+#include "GameFramework/DamageType.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 #define ProjectileSubobject TEXT("Projectile")
 #define ProjectileMovementSubobject TEXT("Projectile Movement")
@@ -31,6 +33,8 @@ void AProjectile::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	//Add method callback to component hit delegate (AddDynamic is a macro, not found by Intellisense autocomplete). Unreal Engine will call OnHit whenever a projectile collision happens.
+	ProjectileMesh->OnComponentHit.AddDynamic(this, &AProjectile::OnHit);
 }
 
 // Called every frame
@@ -38,5 +42,34 @@ void AProjectile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+/// <summary> 
+/// Method to be passed as callback to OnComponentHit delegate that detects collisions
+/// </summary>
+/// <param name="HitComp">refers to the component that made the hit, in this case it would be the Projectile</param>
+/// <param name="OtherActor">refers to the Actor that was hit, e.g. can be used to identify if a TowerPawn was hit</param>
+/// <param name="OtherComp">refers to the specific component that was hit (e.g. TurretMesh if we hit a TowerPawn in its turret, BaseMesh if we hit a TowerPawn in its base)</param>
+/// <param name="NormalImpulse">is a vector that represents the impulse of the collision</param>
+/// <param name="Hit">has additional information of the collision</param>
+void AProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit) 
+{
+	auto ProjectileOwner = GetOwner();
+
+	if (!ProjectileOwner)
+		return;
+
+	auto ProjectileInstigator = ProjectileOwner->GetInstigatorController();
+	auto DamageType = UDamageType::StaticClass();
+
+	// OtherActor: checks if it's not null
+	// OtherActor != this: prevents damage from affecting this projectile (collision events from this instance to this instance are ignored)
+	// OtherActor != ProjectileOwner: prevents damage of this projectile to affect it's owner (collision events that affect the owner of this projectile are ignored)
+	if (OtherActor && OtherActor != this && OtherActor != ProjectileOwner)
+	{
+		// This will generate an event to by broadcast by Unreal Engine OnTakeAnyDamage delegate with the defined parameters
+		UGameplayStatics::ApplyDamage(OtherActor, Damage, ProjectileInstigator, this, DamageType);
+		Destroy();
+	}
 }
 

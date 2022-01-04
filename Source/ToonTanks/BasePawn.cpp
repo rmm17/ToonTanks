@@ -59,10 +59,14 @@ void ABasePawn::Fire()
 	if (!ProjectileSpawnPoint)
 		return;
 
-	GetWorld()->SpawnActor<AProjectile>(
+	// auto allows the compiler to figure out the type to assign to a new variable
+	auto Projectile = GetWorld()->SpawnActor<AProjectile>(
 		ProjectileObject, 
 		ProjectileSpawnPoint->GetComponentLocation(), 
 		ProjectileSpawnPoint->GetComponentRotation()
 	);
+
+	// setting a owner to the projectile will allow us to determine the instigator of damage
+	Projectile->SetOwner(this);
 }
 
