@@ -6,9 +6,12 @@
 #include "GameFramework/DamageType.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Particles/ParticleSystem.h"
+#include "Particles/ParticleSystemComponent.h"
 
 #define ProjectileSubobject TEXT("Projectile")
 #define ProjectileMovementSubobject TEXT("Projectile Movement")
+#define ParticleSystemSubobject TEXT("Particle System")
 
 // Sets default values
 AProjectile::AProjectile()
@@ -18,6 +21,9 @@ AProjectile::AProjectile()
 
 	ProjectileMesh = CreateDefaultSubobject<UStaticMeshComponent>(ProjectileSubobject);
 	RootComponent = ProjectileMesh;
+
+	ParticleSystemComp = CreateDefaultSubobject<UParticleSystemComponent>(ParticleSystemSubobject);
+	ParticleSystemComp->SetupAttachment(RootComponent);
 
 	ProjectileMovementComp = CreateDefaultSubobject<UProjectileMovementComponent>(ProjectileMovementSubobject);
 
@@ -57,7 +63,10 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimi
 	auto ProjectileOwner = GetOwner();
 
 	if (!ProjectileOwner)
+	{
+		Destroy();
 		return;
+	}
 
 	auto ProjectileInstigator = ProjectileOwner->GetInstigatorController();
 	auto DamageType = UDamageType::StaticClass();
@@ -69,7 +78,11 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimi
 	{
 		// This will generate an event to by broadcast by Unreal Engine OnTakeAnyDamage delegate with the defined parameters
 		UGameplayStatics::ApplyDamage(OtherActor, Damage, ProjectileInstigator, this, DamageType);
-		Destroy();
+
+		if (HitParticles)
+			UGameplayStatics::SpawnEmitterAtLocation(this, HitParticles, GetActorLocation(), GetActorRotation());
 	}
+
+	Destroy();
 }
 

@@ -26,11 +26,9 @@ public:
 	void HandleDestruction();
 
 protected:
+	// BaseMesh was moved to protected encapsulation to be accessible to the TankPawn, to attach the spring arm component to BaseMesh (for some reason, the camera was rotating based on the turret mesh and not the root component)
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Base Components", meta = (AllowPrivateAccess = "true"))
 	class UStaticMeshComponent* BaseMesh;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Base Components", meta = (AllowPrivateAccess = "true"))
-	class UStaticMeshComponent* TurretMesh;
 
 	void RotateTurret(FVector LookAtTarget);
 	void Fire();
@@ -41,6 +39,9 @@ private:
 		where they are not necessary, but we have to include in .cpp to access it's methodsU) 
 	*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Base Components", meta = (AllowPrivateAccess = "true"))
+	class UStaticMeshComponent* TurretMesh;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Base Components", meta = (AllowPrivateAccess = "true"))
 	class UCapsuleComponent* CapsuleComp;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Base Components", meta = (AllowPrivateAccess = "true"))
@@ -48,4 +49,7 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Combat")
 	TSubclassOf<class AProjectile> ProjectileObject;
+
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	class UParticleSystem* DeathParticles;
 };

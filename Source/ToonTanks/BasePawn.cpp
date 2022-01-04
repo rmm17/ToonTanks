@@ -5,6 +5,8 @@
 #include "Components/CapsuleComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "DrawDebugHelpers.h"
+#include "Kismet/GameplayStatics.h"
+#include "Particles/ParticleSystem.h"
 #include "Projectile.h"
 
 #define CapsuleSubobject TEXT("Capsule Collider")
@@ -72,8 +74,9 @@ void ABasePawn::Fire()
 
 void ABasePawn::HandleDestruction()
 {
-	// TODO: Visual/sound effects
+	if (!DeathParticles)
+		return;
 
-
+	UGameplayStatics::SpawnEmitterAtLocation(this, DeathParticles, GetActorLocation(), GetActorRotation());
 }
 
