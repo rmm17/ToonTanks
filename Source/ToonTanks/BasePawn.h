@@ -22,7 +22,8 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	void Fire();
+
+	void HandleDestruction();
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Base Components", meta = (AllowPrivateAccess = "true"))
@@ -32,6 +33,7 @@ protected:
 	class UStaticMeshComponent* TurretMesh;
 
 	void RotateTurret(FVector LookAtTarget);
+	void Fire();
 private:
 	/* 
 		forward declaring with class let's the compiler know UCapsuleComponent is

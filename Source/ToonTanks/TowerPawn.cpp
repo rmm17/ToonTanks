@@ -50,3 +50,9 @@ bool ATowerPawn::IsTankInRange()
 
 	return Distance <= FireRange;
 }
+
+void ATowerPawn::HandleDestruction()
+{
+	Super::HandleDestruction();
+	Destroy();
+}

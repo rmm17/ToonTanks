@@ -2,6 +2,8 @@
 
 
 #include "HealthComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "TankToonsGameMode.h"
 
 // Sets default values for this component's properties
 UHealthComponent::UHealthComponent()
@@ -23,6 +25,8 @@ void UHealthComponent::BeginPlay()
 
 	//Add method callback to OnTakeAnyDamage delegate (AddDynamic is a macro, not found by Intellisense autocomplete). Unreal Engine will call DamageTaken whenever a damage event is set
 	GetOwner()->OnTakeAnyDamage.AddDynamic(this, &UHealthComponent::DamageTaken);
+
+	GameMode = Cast<ATankToonsGameMode>(UGameplayStatics::GetGameMode(this));
 }
 
 
@@ -49,6 +53,7 @@ void UHealthComponent::DamageTaken(AActor* DamagedActor, float Damage, const UDa
 
 	Health -= Damage;
 
-	UE_LOG(LogTemp, Warning, TEXT("Health: %f"), Health);
+	if (GameMode && Health <= 0.f)
+		GameMode->ActorDied(DamagedActor);
 }
 

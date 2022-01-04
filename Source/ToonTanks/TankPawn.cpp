@@ -97,3 +97,11 @@ void ATankPawn::Rotate(float Value)
 	FRotator DeltaRotation{ 0.f, RotateValue, 0.f };
 	AddActorLocalRotation(DeltaRotation, true); //bSweep = true passed as parameter will make the translation check for collisions, allowing the engine to correct the rotation in case a collision happens.
 }
+
+void ATankPawn::HandleDestruction()
+{
+	Super::HandleDestruction();
+	
+	SetActorHiddenInGame(true);
+	SetActorTickEnabled(false);
+}
