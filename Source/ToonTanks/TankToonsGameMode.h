@@ -22,8 +22,16 @@ protected:
 
 	virtual void BeginPlay() override;
 
+	//BlueprintImplementableEvent allows adding this method in the game mode blueprint, and implement logic to it in there (while being invoked on the C++ side)
+	UFUNCTION(BlueprintImplementableEvent)
+	void StartGame();
+
 private:
 
 	class ATankPawn* Tank;
+	class AToonTanksPlayerController* PlayerController;
 
+	float GameStartDelay = 3.f;
+
+	void HandleGameStart();
 };
