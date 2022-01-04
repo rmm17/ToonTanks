@@ -35,8 +35,11 @@ void ATowerPawn::Tick(float DeltaTime)
 
 void ATowerPawn::CheckFireCondition()
 {
+	if (!TankPawn)
+		return;
+
 	// Check if the tank is in range
-	if (IsTankInRange())
+	if (IsTankInRange() && TankPawn->bAlive)
 		Fire();
 }
 

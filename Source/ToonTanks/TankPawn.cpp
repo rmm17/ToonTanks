@@ -104,4 +104,6 @@ void ATankPawn::HandleDestruction()
 	
 	SetActorHiddenInGame(true);
 	SetActorTickEnabled(false);
+
+	bAlive = false;
 }
