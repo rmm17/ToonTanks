@@ -41,6 +41,9 @@ void AProjectile::BeginPlay()
 	
 	//Add method callback to component hit delegate (AddDynamic is a macro, not found by Intellisense autocomplete). Unreal Engine will call OnHit whenever a projectile collision happens.
 	ProjectileMesh->OnComponentHit.AddDynamic(this, &AProjectile::OnHit);
+
+	if (LaunchSound)
+		UGameplayStatics::PlaySoundAtLocation(this, LaunchSound, GetActorLocation());
 }
 
 // Called every frame
@@ -81,6 +84,9 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimi
 
 		if (HitParticles)
 			UGameplayStatics::SpawnEmitterAtLocation(this, HitParticles, GetActorLocation(), GetActorRotation());
+
+		if (HitSound)
+			UGameplayStatics::PlaySoundAtLocation(this, HitSound, OtherActor->GetActorLocation());
 	}
 
 	Destroy();
