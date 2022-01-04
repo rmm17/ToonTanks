@@ -5,6 +5,7 @@
 #include "Components/CapsuleComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "DrawDebugHelpers.h"
+#include "Projectile.h"
 
 #define CapsuleSubobject TEXT("Capsule Collider")
 #define BaseMeshSubobject TEXT("Base Mesh")
@@ -20,13 +21,13 @@ ABasePawn::ABasePawn()
 	CapsuleComp = CreateDefaultSubobject<UCapsuleComponent>(CapsuleSubobject);
 
 	BaseMesh = CreateDefaultSubobject<UStaticMeshComponent>(BaseMeshSubobject);
-	BaseMesh->SetupAttachment(CapsuleComp);
+	if (BaseMesh) BaseMesh->SetupAttachment(CapsuleComp);
 
 	TurretMesh = CreateDefaultSubobject<UStaticMeshComponent>(TurretMeshSubobject);
-	TurretMesh->SetupAttachment(BaseMesh);
+	if (TurretMesh) TurretMesh->SetupAttachment(BaseMesh);
 
 	ProjectileSpawnPoint = CreateDefaultSubobject<USceneComponent>(ProjectileSpawnSubobject);
-	ProjectileSpawnPoint->SetupAttachment(TurretMesh);
+	if (ProjectileSpawnPoint) ProjectileSpawnPoint->SetupAttachment(TurretMesh);
 
 	RootComponent = CapsuleComp;
 }
@@ -58,14 +59,10 @@ void ABasePawn::Fire()
 	if (!ProjectileSpawnPoint)
 		return;
 
-	DrawDebugSphere(
-		GetWorld(),
-		ProjectileSpawnPoint->GetComponentLocation(),
-		25.f,
-		12,
-		FColor::Red,
-		false,
-		3.f
+	GetWorld()->SpawnActor<AProjectile>(
+		ProjectileObject, 
+		ProjectileSpawnPoint->GetComponentLocation(), 
+		ProjectileSpawnPoint->GetComponentRotation()
 	);
 }
 

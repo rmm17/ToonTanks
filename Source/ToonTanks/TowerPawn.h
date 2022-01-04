@@ -22,8 +22,14 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
-	UPROPERTY(EditDefaultsOnly, Category = "Tower Properties")
+	UPROPERTY(EditDefaultsOnly, Category = "Combat")
 	float FireRange = 500.f;
 
 	class ATankPawn* TankPawn;
+
+	FTimerHandle FireRateTimerHandle;
+	float FireRate = 2.f;
+
+	void CheckFireCondition();
+	bool IsTankInRange();
 };
