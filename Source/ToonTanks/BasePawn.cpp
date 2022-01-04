@@ -5,6 +5,7 @@
 #include "Components/CapsuleComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "DrawDebugHelpers.h"
+#include "GameFramework/PlayerController.h"
 #include "Kismet/GameplayStatics.h"
 #include "Particles/ParticleSystem.h"
 #include "Projectile.h"
@@ -79,5 +80,9 @@ void ABasePawn::HandleDestruction()
 
 	if (DeathSound)
 		UGameplayStatics::PlaySoundAtLocation(this, DeathSound, GetActorLocation());
+
+	APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
+	if (DeathCameraShake && PlayerController)
+		PlayerController->ClientStartCameraShake(DeathCameraShake);
 }
 

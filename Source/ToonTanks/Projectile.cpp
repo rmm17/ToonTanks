@@ -4,6 +4,7 @@
 #include "Projectile.h"
 #include "Components/StaticMeshComponent.h"
 #include "GameFramework/DamageType.h"
+#include "GameFramework/PlayerController.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Particles/ParticleSystem.h"
@@ -87,6 +88,10 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimi
 
 		if (HitSound)
 			UGameplayStatics::PlaySoundAtLocation(this, HitSound, OtherActor->GetActorLocation());
+
+		APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
+		if (HitCameraShake && PlayerController)
+			PlayerController->ClientStartCameraShake(HitCameraShake);
 	}
 
 	Destroy();
