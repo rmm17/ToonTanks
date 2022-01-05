@@ -27,8 +27,11 @@ public:
 
 protected:
 	// BaseMesh was moved to protected encapsulation to be accessible to the TankPawn, to attach the spring arm component to BaseMesh (for some reason, the camera was rotating based on the turret mesh and not the root component)
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Base Components", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Base Components", meta = (AllowPrivateAccess = "true"))
 	class UStaticMeshComponent* BaseMesh;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Base Components", meta = (AllowPrivateAccess = "true"))
+	class UHealthComponent* HealthComp;
 
 	void RotateTurret(FVector LookAtTarget);
 	void Fire();

@@ -107,3 +107,11 @@ void ATankPawn::HandleDestruction()
 
 	bAlive = false;
 }
+
+FVector ATankPawn::GetCameraViewPoint()
+{
+	FVector CameraLoc = CameraComp->GetComponentLocation();
+	FVector CameraRot = CameraComp->GetComponentRotation().Vector();
+
+	return CameraLoc + CameraRot;
+}

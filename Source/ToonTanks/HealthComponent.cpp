@@ -2,6 +2,8 @@
 
 
 #include "HealthComponent.h"
+#include "Components/WidgetComponent.h"
+#include "HealthWidget.h"
 #include "Kismet/GameplayStatics.h"
 #include "TankToonsGameMode.h"
 
@@ -11,8 +13,6 @@ UHealthComponent::UHealthComponent()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
 }
 
 
@@ -27,6 +27,8 @@ void UHealthComponent::BeginPlay()
 	GetOwner()->OnTakeAnyDamage.AddDynamic(this, &UHealthComponent::DamageTaken);
 
 	GameMode = Cast<ATankToonsGameMode>(UGameplayStatics::GetGameMode(this));
+
+	UpdateProgressBar(1.0f);
 }
 
 
@@ -55,5 +57,15 @@ void UHealthComponent::DamageTaken(AActor* DamagedActor, float Damage, const UDa
 
 	if (GameMode && Health <= 0.f)
 		GameMode->ActorDied(DamagedActor);
+
+	UpdateProgressBar(Health / MaxHealth);
+}
+
+void UHealthComponent::UpdateProgressBar(float HealthPercentage)
+{
+	UHealthWidget *HealthWidget = Cast<UHealthWidget>(GetUserWidgetObject());
+
+	if (HealthWidget) 
+		HealthWidget->UpdateHealthPercent(HealthPercentage);
 }
 

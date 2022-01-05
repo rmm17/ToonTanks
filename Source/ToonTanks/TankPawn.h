@@ -25,6 +25,8 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	void HandleDestruction();
+	FVector GetCameraViewPoint();
+
 	APlayerController* GetPlayerController() const {
 		return PlayerController;
 	};

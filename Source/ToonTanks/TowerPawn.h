@@ -34,4 +34,5 @@ private:
 
 	void CheckFireCondition();
 	bool IsTankInRange();
+	void RotateHealthBar();
 };

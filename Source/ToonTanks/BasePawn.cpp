@@ -4,8 +4,10 @@
 #include "BasePawn.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "Components/WidgetComponent.h"
 #include "DrawDebugHelpers.h"
 #include "GameFramework/PlayerController.h"
+#include "HealthComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Particles/ParticleSystem.h"
 #include "Projectile.h"
@@ -14,6 +16,7 @@
 #define BaseMeshSubobject TEXT("Base Mesh")
 #define TurretMeshSubobject TEXT("Turret Mesh")
 #define ProjectileSpawnSubobject TEXT("Projectile Spawn Point")
+#define WidgetSubobject TEXT("Health bar")
 
 // Sets default values
 ABasePawn::ABasePawn()
@@ -31,6 +34,9 @@ ABasePawn::ABasePawn()
 
 	ProjectileSpawnPoint = CreateDefaultSubobject<USceneComponent>(ProjectileSpawnSubobject);
 	if (ProjectileSpawnPoint) ProjectileSpawnPoint->SetupAttachment(TurretMesh);
+
+	HealthComp = CreateDefaultSubobject<UHealthComponent>(WidgetSubobject);
+	if (HealthComp) HealthComp->SetupAttachment(BaseMesh);
 
 	RootComponent = CapsuleComp;
 }
