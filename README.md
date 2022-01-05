@@ -7,6 +7,6 @@ Build and compile using Unreal Engine v4.27+
 
 With the keyboard and mouse: Destroy the enemy towers with firing projectiles by moving the mouse cursor and pressing left mouse button. Move your tank forward/backwards with W and S keys, and rotate left/right with A and D. If you destroy all towers without losing all your health before, the game is won. If you lose all your health, the game is lost.
 
-With the XBox controller (probably working with other controllers but untested): Fire projectiles with Right Trigger (RT) button. Move and rotate tank with left thumbstick. Move mouse cursor in all directions with right thumbstick.
+With the XBox controller (probably working with other controllers but untested): Fire projectiles with Right Trigger (RT) button. Move and rotate tank with the Left Thumbstick. Move mouse cursor in all directions with the Right Thumbstick.
 
 Youtube video with gameplay: https://youtu.be/9DdJ7L8gX1E
