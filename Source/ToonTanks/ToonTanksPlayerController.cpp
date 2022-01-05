@@ -7,12 +7,15 @@
 
 #define OUT
 
+#define MoveCursorXBinding TEXT("MoveCursorX")
+#define MoveCursorYBinding TEXT("MoveCursorY")
+
 void AToonTanksPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	InputComponent->BindAxis(TEXT("MoveCursorX"), this, &AToonTanksPlayerController::MoveCursorX);
-	InputComponent->BindAxis(TEXT("MoveCursorY"), this, &AToonTanksPlayerController::MoveCursorY);
+	InputComponent->BindAxis(MoveCursorXBinding, this, &AToonTanksPlayerController::MoveCursorX);
+	InputComponent->BindAxis(MoveCursorYBinding, this, &AToonTanksPlayerController::MoveCursorY);
 }
 
 void AToonTanksPlayerController::SetInputEnabledState(bool bEnabled)
@@ -33,8 +36,6 @@ void AToonTanksPlayerController::MoveCursorX(float Value)
 	
 	GetMousePosition(OUT LocationX, OUT LocationY);
 
-	UE_LOG(LogTemp, Warning, TEXT("X-axis: %f"), Value);
-
 	SetMouseLocation(LocationX + Value * DeltaTime * MouseOffset, LocationY);
 }
 
@@ -47,8 +48,6 @@ void AToonTanksPlayerController::MoveCursorY(float Value)
 
 	float LocationX;
 	float LocationY;
-
-	UE_LOG(LogTemp, Warning, TEXT("Y-axis: %f"), Value);
 
 	GetMousePosition(OUT LocationX, OUT LocationY);
 
