@@ -31,12 +31,11 @@ void AToonTanksPlayerController::MoveCursorX(float Value)
 
 	float DeltaTime = UGameplayStatics::GetWorldDeltaSeconds(this);
 
-	float LocationX;
-	float LocationY;
-	
+	float LocationX, LocationY;
 	GetMousePosition(OUT LocationX, OUT LocationY);
 
-	SetMouseLocation(LocationX + Value * DeltaTime * MouseOffset, LocationY);
+	float NewLocationX = LocationX + Value * DeltaTime * MouseOffset;
+	SetMouseLocation(NewLocationX, LocationY);
 }
 
 void AToonTanksPlayerController::MoveCursorY(float Value)
@@ -46,10 +45,9 @@ void AToonTanksPlayerController::MoveCursorY(float Value)
 
 	float DeltaTime = UGameplayStatics::GetWorldDeltaSeconds(this);
 
-	float LocationX;
-	float LocationY;
-
+	float LocationX, LocationY;
 	GetMousePosition(OUT LocationX, OUT LocationY);
 
-	SetMouseLocation(LocationX, LocationY + Value * DeltaTime * MouseOffset);
+	float NewLocationY = LocationY + Value * DeltaTime * MouseOffset;
+	SetMouseLocation(LocationX, NewLocationY);
 }
