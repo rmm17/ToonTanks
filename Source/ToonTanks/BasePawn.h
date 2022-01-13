@@ -26,6 +26,9 @@ public:
 	void HandleDestruction();
 
 protected:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Base Components", meta = (AllowPrivateAccess = "true"))
+	class UCapsuleComponent* CapsuleComp;
+
 	// BaseMesh was moved to protected encapsulation to be accessible to the TankPawn, to attach the spring arm component to BaseMesh (for some reason, the camera was rotating based on the turret mesh and not the root component)
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Base Components", meta = (AllowPrivateAccess = "true"))
 	class UStaticMeshComponent* BaseMesh;
@@ -45,9 +48,6 @@ private:
 	class UStaticMeshComponent* TurretMesh;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Base Components", meta = (AllowPrivateAccess = "true"))
-	class UCapsuleComponent* CapsuleComp;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Base Components", meta = (AllowPrivateAccess = "true"))
 	USceneComponent* ProjectileSpawnPoint;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Combat")
@@ -61,4 +61,8 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TSubclassOf<class UCameraShakeBase> DeathCameraShake;
+
+	class ATankPawn* TankPawn;
+
+	void RotateHealthBar();
 };

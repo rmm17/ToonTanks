@@ -4,8 +4,8 @@
 #include "TowerPawn.h"
 #include "HealthComponent.h"
 #include "Kismet/GameplayStatics.h"
-#include "TankPawn.h"
 #include "TimerManager.h"
+#include "TankPawn.h"
 
 #define OUT
 
@@ -32,8 +32,6 @@ void ATowerPawn::Tick(float DeltaTime)
 		// If the tank is in range, rotate turret toward tank
 		RotateTurret(TankPawn->GetActorLocation());
 	}
-
-	RotateHealthBar();
 }
 
 void ATowerPawn::CheckFireCondition()
@@ -61,17 +59,4 @@ void ATowerPawn::HandleDestruction()
 {
 	Super::HandleDestruction();
 	Destroy();
-}
-
-void ATowerPawn::RotateHealthBar()
-{
-	if (!TankPawn)
-		return;
-
-	if (!HealthComp)
-		return;
-
-	FVector ToTarget = TankPawn->GetCameraViewPoint() - HealthComp->GetComponentLocation();
-	FRotator LookAtRotation = FRotator(0.f, ToTarget.Rotation().Yaw, 0.f);
-	HealthComp->SetWorldRotation(LookAtRotation);
 }
