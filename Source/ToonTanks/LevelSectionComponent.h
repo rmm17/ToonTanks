@@ -3,13 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/ActorComponent.h"
+#include "Components/SceneComponent.h"
 #include "LevelSectionComponent.generated.h"
 
 class ATriggerVolume;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class TOONTANKS_API ULevelSectionComponent : public UActorComponent
+class TOONTANKS_API ULevelSectionComponent : public USceneComponent
 {
 	GENERATED_BODY()
 
@@ -26,12 +26,34 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 private:
-	UPROPERTY(EditAnywhere, Category = "Level Sections")
+	UPROPERTY(EditInstanceOnly, Category = "Level Sections")
 	ATriggerVolume* PartTwoTrigger;
 
-	UPROPERTY(EditAnywhere, Category = "Level Sections")
+	UPROPERTY(EditInstanceOnly, Category = "Level Sections")
 	ATriggerVolume* PartThreeTrigger;
 
-	UPROPERTY(EditAnywhere, Category = "Level Sections")
+	UPROPERTY(EditInstanceOnly, Category = "Level Sections")
 	ATriggerVolume* PartFourTrigger;
+
+	UPROPERTY(EditAnywhere, Category = "Level Sections")
+	float PartTwoTargetArmLength = 3000.f;
+
+	UPROPERTY(EditAnywhere, Category = "Level Sections")
+	FRotator PartTwoCameraRotation = FRotator(-90.f, 0.f, 0.f);
+
+	UPROPERTY(EditAnywhere, Category = "Level Sections")
+	float PartThreeTargetArmLength = 1000.f;
+
+	UPROPERTY(EditAnywhere, Category = "Level Sections")
+	FRotator PartThreeCameraRotation = FRotator(-15.f, 270.f, 0.f);
+
+	UPROPERTY(EditAnywhere, Category = "Level Sections")
+	float PartFourTargetArmLength = 600.f;
+
+	UPROPERTY(EditAnywhere, Category = "Level Sections")
+	FRotator PartFourCameraRotation = FRotator(-35.f, 0.f, 0.f);
+
+	class ATankPawn* PlayerPawn;
+
+//	void OnPartTwoOverlap(class AActor* OverlappedActor, class AActor* OtherActor);
 };

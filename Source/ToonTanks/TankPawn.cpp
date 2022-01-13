@@ -28,6 +28,7 @@ ATankPawn::ATankPawn()
 	if (CameraComp) CameraComp->SetupAttachment(SpringArmComp);
 
 	LevelSectionComp = CreateDefaultSubobject<ULevelSectionComponent>(LevelSectionSubobject);
+	if (LevelSectionComp) LevelSectionComp->SetupAttachment(BaseMesh);
 }
 
 // Called to bind functionality to input
@@ -54,6 +55,12 @@ void ATankPawn::BeginPlay()
 
 	if (!PlayerController)
 		UE_LOG(LogTemp, Error, TEXT("Object %s has no PlayerController set"), *GetName());
+
+	if (SpringArmComp)
+	{
+		SectionTargetArmLength = SpringArmComp->TargetArmLength;
+		SectionCameraRotation = SpringArmComp->GetRelativeRotation();
+	}
 }
 
 // Called every frame
@@ -70,6 +77,14 @@ void ATankPawn::Tick(float DeltaTime)
 		false, 
 		OUT Hit
 	);
+
+	if (SpringArmComp) {
+		SpringArmComp->TargetArmLength = FMath::FInterpTo(SpringArmComp->TargetArmLength, SectionTargetArmLength, DeltaTime, SectionChangeInterpolationSpeed);
+
+		FRotator SpringArmRotation = SpringArmComp->GetRelativeRotation();
+		FRotator NewRotation = FMath::RInterpTo(SpringArmRotation, SectionCameraRotation, DeltaTime, SectionChangeInterpolationSpeed);
+		SpringArmComp->SetRelativeRotation(NewRotation);
+	}
 
 	/*DrawDebugSphere(
 		GetWorld(),
@@ -118,4 +133,10 @@ FVector ATankPawn::GetCameraViewPoint()
 	FVector CameraRot = CameraComp->GetComponentRotation().Vector();
 
 	return CameraLoc + CameraRot;
+}
+
+void ATankPawn::ChangeCameraViewPoint(float TargetArmLength, FRotator Rotation)
+{
+	SectionTargetArmLength = TargetArmLength;
+	SectionCameraRotation = Rotation;
 }
