@@ -6,10 +6,12 @@
 #include "Camera/CameraComponent.h"
 #include "DrawDebugHelpers.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "LevelSectionComponent.h"
 #include "Kismet/GameplayStatics.h"
 
 #define SpringArmSubobject TEXT("Spring Arm")
 #define CameraSubobject TEXT("Camera")
+#define LevelSectionSubobject TEXT("Level Section")
 
 #define MoveForwardBinding TEXT("MoveForward")
 #define TurnBinding TEXT("Turn")
@@ -24,6 +26,8 @@ ATankPawn::ATankPawn()
 
 	CameraComp = CreateDefaultSubobject<UCameraComponent>(CameraSubobject);
 	if (CameraComp) CameraComp->SetupAttachment(SpringArmComp);
+
+	LevelSectionComp = CreateDefaultSubobject<ULevelSectionComponent>(LevelSectionSubobject);
 }
 
 // Called to bind functionality to input
