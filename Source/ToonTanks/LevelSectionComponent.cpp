@@ -21,7 +21,7 @@ void ULevelSectionComponent::BeginPlay()
 	Super::BeginPlay();
 
 	PlayerPawn = Cast<ATankPawn>(UGameplayStatics::GetPlayerPawn(this, 0));
-
+	
 	// Ideally we should be able to use these overlap events with a callback, but for some reason the callback isn't being triggered.
 	// if (PartTwoTrigger)
 	//		PartTwoTrigger->OnActorBeginOverlap.AddDynamic(this, &ULevelSectionComponent::OnPartTwoOverlap);
@@ -36,6 +36,12 @@ void ULevelSectionComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 	if (!PlayerPawn)
 		return;
 
+	if (bGameStart)
+	{
+		PlayerPawn->ChangeCameraViewPoint(PartOneTargetArmLength, PartOneCameraRotation);
+		bGameStart = false;
+	}
+
 	// Ideally we would use overlapping events instead of checking if it's overlapping on tick method
 	if (PartTwoTrigger && PartTwoTrigger->IsOverlappingActor(PlayerPawn))
 		PlayerPawn->ChangeCameraViewPoint(PartTwoTargetArmLength, PartTwoCameraRotation);
@@ -47,6 +53,7 @@ void ULevelSectionComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 		PlayerPawn->ChangeCameraViewPoint(PartFourTargetArmLength, PartFourCameraRotation);
 }
 
+// Ideally we should be able to use these overlap events with a callback, but for some reason the callback isn't being triggered.
 /*void ULevelSectionComponent::OnPartTwoOverlap(class AActor* OverlappedActor, class AActor* OtherActor)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Actor %s overlapped volume %s"), *OtherActor->GetName(), *OverlappedActor->GetName());

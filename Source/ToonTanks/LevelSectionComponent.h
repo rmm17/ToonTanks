@@ -36,6 +36,12 @@ private:
 	ATriggerVolume* PartFourTrigger;
 
 	UPROPERTY(EditAnywhere, Category = "Level Sections")
+	float PartOneTargetArmLength = 600.f;
+
+	UPROPERTY(EditAnywhere, Category = "Level Sections")
+	FRotator PartOneCameraRotation = FRotator(-35.f, 0.f, 0.f);
+
+	UPROPERTY(EditAnywhere, Category = "Level Sections")
 	float PartTwoTargetArmLength = 3000.f;
 
 	UPROPERTY(EditAnywhere, Category = "Level Sections")
@@ -54,6 +60,8 @@ private:
 	FRotator PartFourCameraRotation = FRotator(-35.f, 0.f, 0.f);
 
 	class ATankPawn* PlayerPawn;
+
+	bool bGameStart = true;
 
 //	void OnPartTwoOverlap(class AActor* OverlappedActor, class AActor* OtherActor);
 };
