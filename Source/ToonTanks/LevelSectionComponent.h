@@ -27,10 +27,19 @@ public:
 
 private:
 	UPROPERTY(EditInstanceOnly, Category = "Level Sections")
+	ATriggerVolume* PartOneTrigger;
+
+	UPROPERTY(EditInstanceOnly, Category = "Level Sections")
 	ATriggerVolume* PartTwoTrigger;
 
 	UPROPERTY(EditInstanceOnly, Category = "Level Sections")
+	ATriggerVolume* PartTwoBackTrigger;
+
+	UPROPERTY(EditInstanceOnly, Category = "Level Sections")
 	ATriggerVolume* PartThreeTrigger;
+
+	UPROPERTY(EditInstanceOnly, Category = "Level Sections")
+	ATriggerVolume* PartThreeBackTrigger;
 
 	UPROPERTY(EditInstanceOnly, Category = "Level Sections")
 	ATriggerVolume* PartFourTrigger;
@@ -62,6 +71,8 @@ private:
 	class ATankPawn* PlayerPawn;
 
 	bool bGameStart = true;
+
+	int32 CurrentPart = 1;
 
 //	void OnPartTwoOverlap(class AActor* OverlappedActor, class AActor* OtherActor);
 };
