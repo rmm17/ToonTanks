@@ -54,7 +54,7 @@ private:
 	float PartTwoTargetArmLength = 1500.f;
 
 	UPROPERTY(EditAnywhere, Category = "Level Sections")
-	FRotator PartTwoCameraRotation = FRotator(-90.f, 0.f, 0.f);
+	FRotator PartTwoCameraRotation = FRotator(-85.f, 0.f, 0.f);
 
 	UPROPERTY(EditAnywhere, Category = "Level Sections")
 	float PartThreeTargetArmLength = 1000.f;

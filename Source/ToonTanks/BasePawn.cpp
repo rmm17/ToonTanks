@@ -11,6 +11,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Particles/ParticleSystem.h"
 #include "Projectile.h"
+#include "TankPawn.h"
 
 #define CapsuleSubobject TEXT("Capsule Collider")
 #define BaseMeshSubobject TEXT("Base Mesh")
@@ -45,12 +46,16 @@ ABasePawn::ABasePawn()
 void ABasePawn::BeginPlay()
 {
 	Super::BeginPlay();
+
+	TankPawn = Cast<ATankPawn>(UGameplayStatics::GetPlayerPawn(this, 0)); // 0 is defined as the pawn number for the player (check auto possess player in the tank instance in the viewport)
 }
 
 // Called every frame
 void ABasePawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	RotateHealthBar();
 }
 
 void ABasePawn::RotateTurret(FVector LookAtTarget)
@@ -90,5 +95,18 @@ void ABasePawn::HandleDestruction()
 	APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
 	if (DeathCameraShake && PlayerController)
 		PlayerController->ClientStartCameraShake(DeathCameraShake);
+}
+
+void ABasePawn::RotateHealthBar()
+{
+	if (!TankPawn)
+		return;
+
+	if (!HealthComp)
+		return;
+
+	FVector ToTarget = TankPawn->GetCameraViewPoint() - HealthComp->GetComponentLocation();
+	FRotator LookAtRotation = FRotator(0.f, ToTarget.Rotation().Yaw, 0.f);
+	HealthComp->SetWorldRotation(ToTarget.Rotation());
 }
 

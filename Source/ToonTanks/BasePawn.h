@@ -61,4 +61,8 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	TSubclassOf<class UCameraShakeBase> DeathCameraShake;
+
+	class ATankPawn* TankPawn;
+
+	void RotateHealthBar();
 };
