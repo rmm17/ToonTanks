@@ -51,7 +51,7 @@ private:
 	FRotator PartOneCameraRotation = FRotator(-35.f, 0.f, 0.f);
 
 	UPROPERTY(EditAnywhere, Category = "Level Sections")
-	float PartTwoTargetArmLength = 3000.f;
+	float PartTwoTargetArmLength = 1500.f;
 
 	UPROPERTY(EditAnywhere, Category = "Level Sections")
 	FRotator PartTwoCameraRotation = FRotator(-90.f, 0.f, 0.f);

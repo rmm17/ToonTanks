@@ -39,6 +39,7 @@ void ULevelSectionComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 	if (!PlayerPawn)
 		return;
 
+	// Ideally we would use overlapping events instead of checking if it's overlapping on tick method
 	bool bPartOne = bGameStart || (PartOneTrigger && PartOneTrigger->IsOverlappingActor(PlayerPawn));
 	bool bPartTwo = (PartTwoTrigger && PartTwoTrigger->IsOverlappingActor(PlayerPawn)) || 
 					(PartTwoBackTrigger && PartTwoBackTrigger->IsOverlappingActor(PlayerPawn));
